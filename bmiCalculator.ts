@@ -1,4 +1,4 @@
-const calculateBmi = (height, weight) => {
+const calculateBmi = (height: number, weight: number) => {
     //Calculate BMI from given height and weight in centimeters
     let result = (weight) / ((height * height)/10000);    
     if (result < 18.5) {

@@ -42,7 +42,7 @@ const args = process.argv.slice(2).map(arg => {
 
 const target = args.pop();
 
-if (isNaN(target)) {
+if (target === undefined || isNaN(target)) {
     throw new Error('Invalid target');
 }
 
