@@ -29,6 +29,38 @@ app.get('/bmi', (req, res) => {
     });
     });
 
+app.use(express.json());
+
+app.post('/exercises', (req, res) => {
+    const dailyHours = req.body.daily_exercises;
+    const target = req.body.target;
+    
+    if (!dailyHours || !target) {
+        res.status(400).json({ error: "parameters missing" });
+    }
+    
+    if (!Array.isArray(dailyHours) || isNaN(target)) {
+        res.status(400).json({ error: "malformatted parameters" });
+    }
+    
+    const periodLength = dailyHours.length;
+    const trainingDays = dailyHours.filter((h: number) => h > 0).length;
+    const average = dailyHours.reduce((a: any, b: any) => a + b, 0) / periodLength;
+    const success = average >= target;
+    const rating = success ? 3 : average >= target - 1 ? 2 : 1;
+    const ratingDescription = rating === 3 ? 'a good week!' : rating === 2 ? 'not too bad but could be better' : 'lazy week!';
+    
+    res.json({
+        periodLength,
+        trainingDays,
+        success,
+        rating,
+        ratingDescription,
+        target,
+        average
+    });
+    });
+
 const PORT = 3003;
 
 app.listen(PORT, () => {
