@@ -10,4 +10,20 @@ const calculateBmi = (height, weight) => {
     }       
   }
   
-  console.log(calculateBmi(180, 74))
+  //console.log(calculateBmi(process.argv[2], process.argv[3]))
+  if (process.argv.length < 4) {
+    throw new Error('Height and weight are required');
+}
+
+const height = Number(process.argv[2]);
+const weight = Number(process.argv[3]);
+
+if (isNaN(height) || isNaN(weight)) {
+    throw new Error('Height and weight must be numbers');
+}
+
+if (height < 1 || weight < 1) {
+    throw new Error('Height and weight must be positive numbers and over 0');
+}
+
+console.log(calculateBmi(height, weight));
